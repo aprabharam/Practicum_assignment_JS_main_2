@@ -6,7 +6,7 @@ function computerPlay() {
 
 function playRound(playerSelection, computerSelection) {
     if(playerSelection === null) {
-        return "cancel|Enter a valid selection. Round cancelled";
+        return "cancel|You pressed cancel";
     }
 
     let playerChoice = playerSelection.toUpperCase().trim();
@@ -31,7 +31,7 @@ function playRound(playerSelection, computerSelection) {
         }
 }
 
-function game() {
+function playGame() {
     let playerScore = 0;
     let computerScore = 0;
     let roundsPlayed = 0;
@@ -56,8 +56,14 @@ function game() {
                 continue;
             }
             case "cancel": {
-                alert(resultMessage);
-                return;
+                let confirmExit = confirm("You pressed cancel. \nAre you sure you want to exit the game?");
+
+                if (confirmExit) {
+                    alert("Game exited. The AI claims victory");
+                    return null; 
+                } else {
+                    continue;
+                }
             }
             case "win": {
                 playerScore++;
@@ -79,6 +85,11 @@ function game() {
         alert(`You chose: ${playerSelection.toUpperCase()} \nComputer chose: ${computerSelection} \n${resultMessage} \n\nScore: \nPlayer: ${playerScore} \nComputer: ${computerScore} \nTies: ${tiesScore}`);
         roundsPlayed++;
     }
+    return {playerScore, computerScore, tiesScore};
+}
+
+function game() {
+    let {playerScore, computerScore, tieScore} = playGame();
 
     if(playerScore > computerScore) {
         alert(`Your score: ${playerScore} \nComputer's score: ${computerScore} \nTies: ${tiesScore} \n\nYou just proved that humans can beat AI! Wohoooo. You are the WINNER of the game. \nGame ended.`);
